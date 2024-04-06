@@ -1,14 +1,14 @@
 import React from 'react'
-import PostMethod from './Components/postMethod/PostMethod'
-import GetMethod from './Components/getmethod/GetMethod'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import PostMethod from './Components/postMethod/PostMethod';
+
 import './App.css'
 
 function App() {
   
   return (
     <>
-      {/* <GetMethod/> */}
-      <PostMethod/>
+    <PostMethod/>
     </>
   )
 }
