@@ -1,57 +1,69 @@
 import React, { useState } from "react";
 import axios from "axios";
 import './PostMethod.css'
-
 function PostMethod() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [phonenumber, setPhonenumber] = useState('');
+    const [state, setState] = useState({
+        name: '',
+        email: '',
+        password: '',
+        phonenumber: ''
+    });
+
+    const { name, email, password, phonenumber } = state;
 
     const Submit = (e) => {
         e.preventDefault();
-        addPosts(name, email, password, phonenumber);
+        addPosts(state);
+    };
+    const handleInputChange = (e, value) => {
+        setState({ ...state, [value]: e.target.value }); 
     };
 
-    const addPosts = (name, email, password, phonenumber) => {
+    const addPosts = (state) => {
         axios
-            .post('https://660fa01d356b87a55c51d6dd.mockapi.io/Students', { name, email, password, phonenumber })
+            .post(`${import.meta.env.VITE_API_FAKE_URL}/fakeData`, { 
+                state })
             .then((res) => {
                 console.log("Post added successfully:", res.data);
-                setName('');
-                setEmail('');
-                setPassword('');
-                setPhonenumber('');
+                setState({
+                    name: '',
+                    email: '',
+                    password: '',
+                    phonenumber: ''
+                }); 
             })
             .catch((error) => {
                 console.error("Error adding post:", error);
             });
     };
 
+    
+
     return (
         <form onSubmit={Submit}>
+            <h2>Signup</h2>
             <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => handleInputChange(e, 'name')} 
                 placeholder="Enter name"
             />
             <input
                 type="text"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleInputChange(e, 'email')} 
                 placeholder="Enter email"
             />
             <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handleInputChange(e, 'password')}
                 placeholder="Enter password"
             />
             <input
                 type="text"
                 value={phonenumber}
-                onChange={(e) => setPhonenumber(e.target.value)}
+                onChange={(e) => handleInputChange(e, 'phonenumber')} 
                 placeholder="Enter phone number"
             />
             <button type="submit">Submit</button>
